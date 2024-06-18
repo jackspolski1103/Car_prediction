@@ -1,61 +1,21 @@
 import numpy as np
 import pandas as pd 
-import Levenshtein as lev 
 
 
-def preprocesar_vendedor(df): 
-    tipos = [
-        "1987",
-        "1992",
-        "1993",
-        "1994",
-        "1995",
-        "1996",
-        "1997",
-        "1998",
-        "1999",
-        "2000",
-        "2001",
-        "2002",
-        "2003",
-        "2004",
-        "2005",
-        "2006",
-        "2007",
-        "2008",
-        "2009",
-        "2010",
-        "2011",
-        "2012",
-        "2013",
-        "2014",
-        "2015",
-        "2016",
-        "2017",
-        "2018",
-        "2019",
-        "2020",
-        "2021",
-        "2022",
-        "2023",
-        "2024",
-    ]
-    threshold = 3 # cantidad de letras distintas que puede tener como máximo 
-    vendedor = df['Tipo de vendedor'].str.split().str[0].str.upper()
-    n = len(vendedor)  
-    for i in range(n):
-        min_dist = 100
-        aux = "" 
-        for c in tipos: 
-            if pd.isnull(vendedor[i]) or vendedor[i] is pd.NA:  
-                vendedor[i] = "NO ESPESIFICA"  
-            dist = lev.distance(vendedor[i], c) 
-            if dist < min_dist:
-                aux = c  
-                min_dist = dist 
-        vendedor[i] = aux 
-        if min_dist > threshold:
-            vendedor[i] = "OTRO"
-    df['Tipo de vendedor'] = vendedor
-    return 
+def preprocesar_año(df):
+    # Años validos entre 1900 y 2024
+    #si es menor a 100  y mayor a 24 se le suma 1900
+    df['Año'] = df['Año'].apply(lambda x: x+1900 if x<100 and x>24 else x)
+    # si es menor a 1900 y esta entre 0 y 24 se le suma 2000
+    df['Año'] = df['Año'].apply(lambda x: x+2000 if x<24 and x>0 else x)
+    #si es menor a 1900 se le pone 1900
+    df['Año'] = df['Año'].apply(lambda x: 1900 if x<1900 else x)
+    #si es mayor a 2024 se le pone 2024
+    df['Año'] = df['Año'].apply(lambda x: 2024 if x>2024 else x)
+
+    return df
+
+
+
+
 
