@@ -50,9 +50,7 @@ def crear_diccionario_versiones():
         # dentro de la carpeta info hay MARCA.txt con las versiones de cada marca
         diccionario_versiones = {}
         for marca in marcas:
-            print(marca)
-            archivo = f'./version/info/{marca}.txt'
-            print(archivo)
+            archivo = f'./info/{marca}.txt'
             diccionario_versiones[marca] = leer_archivo_texto(archivo)
         return diccionario_versiones
 
@@ -63,9 +61,11 @@ def preprocesar_versiones(df):
     diccionario_versiones = crear_diccionario_versiones()
     threshold = 2
     #cargar versiones y pasar a mayusculas
-    versiones = df['Versión'].str.upper().str.strip()
+    versiones = df['Versión'].str.upper()
+    versiones = versiones.str.split()
+
     new_versiones = []
-    marcas = df['Marca'].str.upper().str.strip()
+    marcas = df['Marca'].str.upper()
     #iterar sobre las versiones, separar por espacios y buscar coincidencias
     for i in range(len(versiones)):
         min_dist = 100
