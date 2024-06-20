@@ -7,7 +7,7 @@ from src.pipeline import run_experiment
 from src.utils.files import read_configs, set_seed
 from src.utils.logger import set_logger_level
 
-#seed = 1234 # set seed for reproducibility
+seed = 16 # set seed for reproducibility
 set_seed(seed)
 
 if __name__ == '__main__':
