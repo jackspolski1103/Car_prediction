@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd 
 
 
-def preprocesar_kilometro(df):
+def preprocesar_kilometros(df):
     años = df["Año"].copy()
     kilometros = df["Kilómetros"].values
     threshold = 80000 

@@ -30,4 +30,4 @@ def preprocesar_7plazas(df):
                 asiento_ = 'SI'
         asientos_list.append(asiento_)
     df['7plazas'] = asientos_list
-    return df
+    return

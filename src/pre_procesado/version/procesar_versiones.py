@@ -85,7 +85,7 @@ def preprocesar_versiones(df):
         new_versiones.append(aux)
 
     df['Versión'] = new_versiones
-    return df
+    return 
 
     
 
