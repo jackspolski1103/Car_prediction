@@ -16,7 +16,7 @@ def buscar_palabra(palabra, texto):
 
 def preprocesar_turbo(df):
 
-    turbo=read_txt_file('./turbo.txt')
+    turbo=read_txt_file('./turbo/turbo.txt')
     versiones = df['Versión'].str.upper()
     titulos = df['Título'].str.upper()
     #cambiar todos los nan por 'OTRO'

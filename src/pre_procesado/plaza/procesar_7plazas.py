@@ -16,7 +16,7 @@ def buscar_palabra(palabra, texto):
 
 def preprocesar_7plazas(df):
 
-    plazas=read_txt_file('./7plazas.txt')
+    plazas=read_txt_file('./plaza/7plazas.txt')
     versiones = df['Versión'].str.upper()
     titulos = df['Título'].str.upper()
     #cambiar todos los nan por 'OTRO'

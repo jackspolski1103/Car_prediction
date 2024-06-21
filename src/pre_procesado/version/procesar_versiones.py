@@ -50,7 +50,7 @@ def crear_diccionario_versiones():
         # dentro de la carpeta info hay MARCA.txt con las versiones de cada marca
         diccionario_versiones = {}
         for marca in marcas:
-            archivo = f'./info/{marca}.txt'
+            archivo = f'./version/info/{marca}.txt'
             diccionario_versiones[marca] = leer_archivo_texto(archivo)
         return diccionario_versiones
 
