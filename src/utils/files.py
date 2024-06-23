@@ -15,18 +15,17 @@ def read_configs():
     parser = argparse.ArgumentParser()
     parser.add_argument("--model", default=None)
     parser.add_argument("--data", default=None)
-    parser.add_argument("--features", default=None)
     args = parser.parse_args()
     configs = {}
     for config_type in vars(args):
         path = getattr(args, config_type)
         if not path:
             raise ValueError(f"Missing {config_type} config path")
-        config_name = re.match(r"configs/(model/|data/|features/)?([\w\_\-]+).py", path).group(2)
+        config_name = re.match(r"configs/(model/|data/)?([\w\_\-]+).py", path).group(2)
         config = import_configs_objs(path)
         config.config_name = config_name
         configs[config_type]=config
-    return [configs[cfg_type] for cfg_type in ['model','data','features']]
+    return [configs[cfg_type] for cfg_type in ['model','data']]
 
 def import_configs_objs(config_file):
     """Dynamicaly loads the configuration file"""
@@ -39,20 +38,14 @@ def import_configs_objs(config_file):
         delattr(mod, var)
     return mod
 
-def create_result_folder(*params):
-    names = [params[i].config_name for i in range(len(params))]
-    base = join('results',*names)
-    now = datetime.datetime.now()
-    os.makedirs(base, exist_ok=True)
-    # dump confgis files
-    for param in params:
-        configs = {}
-        for setting in dir(param):
-            configs[setting] = getattr(param, setting)
-        with open(os.path.join(base, f'{param.config_name}_config.pkl'), 'wb') as f:
-            pickle.dump(configs, f, protocol=pickle.HIGHEST_PROTOCOL)
-    # dump run date
-    with open(os.path.join(base, 'run_date.txt'), 'w') as f:
-        f.write(str(now))
-        f.close
-    return base
+def create_result_folder(data_name,model_name):
+    
+    # se fija si esta la carpeta data_name dentro de results
+    if not os.path.exists(join('results',data_name)):
+        os.makedirs(join('results',data_name))
+
+    # se fija si esta la carpeta model_name dentro de results/data_name
+    if not os.path.exists(join('results',data_name,model_name)):
+        os.makedirs(join('results',data_name,model_name))
+
+    
