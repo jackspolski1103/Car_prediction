@@ -11,9 +11,6 @@ seed = 16 # set seed for reproducibility
 
 if __name__ == '__main__':
     model, data = read_configs()
-    print(model)
-    print(data)
-    print(model.name)
     #logfilename = '_'.join([cfg.config_name for cfg in [model, data]])
     #logging.config.fileConfig(join('configs', 'logging.conf'), defaults={'logfilename': join('logs',logfilename)})    
     #logger = logging.getLogger('src')

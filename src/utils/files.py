@@ -43,13 +43,19 @@ def import_configs_objs(config_file):
     return mod
 
 def create_result_folder(data_name,model_name):
-    
+
+
     # se fija si esta la carpeta data_name dentro de results
     if not os.path.exists(join('results',data_name)):
         os.makedirs(join('results',data_name))
 
     # se fija si esta la carpeta model_name dentro de results/data_name
     if not os.path.exists(join('results',data_name,model_name)):
-        os.makedirs(join('results',data_name,model_name))
+        os.makedirs(join('results',data_name,model_name))   
+
+
+
+
+
 
     
