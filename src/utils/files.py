@@ -21,7 +21,11 @@ def read_configs():
         path = getattr(args, config_type)
         if not path:
             raise ValueError(f"Missing {config_type} config path")
-        config_name = re.match(r"configs/(model/|data/)?([\w\_\-]+).py", path).group(2)
+        config_name = split(path)[1]
+        #path es /configs/model/config_name.py
+        path = join('configs',config_type,path)
+        #agregar el .py y la barra al principio
+        path = path if path.endswith('.py') else path + '.py'        
         config = import_configs_objs(path)
         config.config_name = config_name
         configs[config_type]=config

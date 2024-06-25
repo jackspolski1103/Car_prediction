@@ -1,0 +1,2 @@
+name= 'OneHot'
+device='cpu'

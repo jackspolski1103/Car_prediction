@@ -1,20 +1,14 @@
 import logging
 import importlib
 import os, random
-import torch
 from os.path import join, split, exists
 import pandas as pd
 
-from src.dataloaders.AudioDataloader import AudioDataloader
-from src.dataloaders.AudioDataset import AudioDataset
+
 
 from src.utils.files import create_result_folder
-from src.callbacks.EarlyStopper import EarlyStopper
-from src.datasets.load_metadata import load_metadata
-from src.features.extract_features import extract_features
 
-from src.train_and_test.train import train
-from src.train_and_test.test import test
+
 
 logger = logging.getLogger(__name__)
 
@@ -28,7 +22,7 @@ def run_experiment(model_params, data_params):
     trabajo distinto, eliminando o agregando pasos.
     """
     # Bajar dataset train
-    data_train = pd.read_csv('../data/Limpio/PreProcesado/train.csv')
+    data_train = pd.read_csv('./data/Limpio/PreProcesado/train.csv')
 
 
     context = {}

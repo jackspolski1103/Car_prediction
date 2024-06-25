@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd 
 
 # import all preprocesing functions
-from año.procesar_año                 import preprocesar_año
+from ano.procesar_ano                 import preprocesar_ano
 from camara_ret.procesar_camara_ret   import preprocesar_camaraRetroceso
 from color.procesar_colores           import preprocesar_colores
 from combustible.procesar_combustible import preprocesar_combustible
@@ -23,7 +23,7 @@ def preprocesar_datos(df):
     dolar_hoy = 1030 
     preprocesar_marcas(df)
     preprocesar_modelos(df)
-    preprocesar_año(df)
+    preprocesar_ano(df)
     preprocesar_colores(df)
     preprocesar_camaraRetroceso(df)
     preprocesar_combustible(df)
@@ -39,10 +39,12 @@ def preprocesar_datos(df):
     return df 
 
 
-data_file = '../../data/data.csv'
+data_file = '../../data/Limpio/test.csv'
 df = pd.read_csv(data_file) 
 preprocesar_datos(df)
-print(df.head()) 
+#to csv
+df.to_csv('../../data/Limpio/PreProcesado/test.csv', index=False)
+print('Done!')
 
 
 
