@@ -3,6 +3,7 @@ from sklearn.preprocessing import OneHotEncoder
 import numpy as np
 
 def feature_engineering(df):
+    df_completo= 
     onehot = OneHotEncoder()
     df.drop(columns = ['Título', 'Tipo de carrocería', 'Puertas', 'Moneda', 'Motor'], inplace=True)
     columns_to_keep = df[['Año','Kilómetros', 'Precio', 'Cilindrada', 'Tracción', 'Turbo', '7plazas']]

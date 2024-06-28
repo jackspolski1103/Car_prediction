@@ -3,7 +3,7 @@ import importlib
 import os, random
 from os.path import join, split, exists
 import pandas as pd
-
+import numpy as np
 
 
 from src.utils.files import create_result_folder
@@ -23,6 +23,8 @@ def run_experiment(model_params, data_params):
     """
     # Bajar dataset train
     data_train = pd.read_csv('./data/Limpio/PreProcesado/train.csv')
+    # Bajar dataset test
+    data_test = pd.read_csv('./data/Limpio/PreProcesado/test.csv')
 
 
     context = {}
@@ -33,26 +35,38 @@ def run_experiment(model_params, data_params):
         
     # Si en la carpeta \data_paramas.name ya existe el archivo train.csv, no llama a la funcion get_ingenieria_datos y baja el archivo train.csv
     #el archivo metadata deberia estar en results/data_params.name
-    path = join('results', data_params.name, 'metadata_train.csv')
+    path = join('results', data_params.name, 'metadata_train.npy')
     if not exists(path):
         metadata_train = get_ingenieria_datos(data_params, data_train)
-        #descargar metadata_train
-        metadata_train.to_csv(path, index=False)
+        metadata_test = get_ingenieria_datos(data_params, data_test)
+        #descargar metadata_train que es un numpy array
+        np.save(join('results', data_params.name, 'metadata_train.npy'), metadata_train)
+        np.save(join('results', data_params.name, 'metadata_test.npy'), metadata_test)
+
+
+
+        # metadata_train.to_csv(path, index=False)
+        # metadata_test.to_csv(join('results', data_params.name, 'metadata_test.csv'), index=False)
     else:
-        metadata_train = pd.read_csv(path)
+        metadata_train = np.load(path)
+        metadata_test = np.load(join('results', data_params.name, 'metadata_test.npy'))
     
     
+    print('metadata_train', metadata_train.shape)
+    print('metadata_test', metadata_test.shape)
     # load model
     model = load_model(model_params)
     
     # train
-    results = model.train(metadata_train)    
+    model.train(metadata_train)
+
+    # test
+    results = model.test(metadata_test)
+    
     # save model
-    model.save(context['save_path'])
-    print(results)
+    model.save_model(context['save_path'])
     print('model saved')
     # test
-    test_results = results
     # save results
     results.to_csv(join(context['save_path'], 'results.csv'), index=False)
 
@@ -64,7 +78,6 @@ def load_model(params):
     model_module = importlib.import_module(f'src.models.{params.name}')
     #crear una instancia de la clase que se llama igual que el archivo y recibe como parametro params
     # tranformar params en una lista
-    print(params.params)
     model = model_module.Model(*params.params)
     return model
 
@@ -76,5 +89,4 @@ def get_ingenieria_datos(data_params, data_train):
     #devuelve el dataframe que se genero en esa funcion
     data_module = importlib.import_module(f'src.ingenieria_datos.{data_params.name}')
     metadata_train = data_module.feature_engineering(data_train)
-    print(metadata_train.head())
     return metadata_train
