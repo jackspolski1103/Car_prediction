@@ -17,13 +17,8 @@ def feature_engineering(df):
     final_df['Turbo'] = final_df['Turbo'].apply(lambda x: 1 if x == 'SI' else 0)
     final_df['7plazas'] = final_df['7plazas'].apply(lambda x: 1 if x == 'SI' else 0)
 
-    df_precio = final_df['Precio']
-    final_df.drop(columns = ['Precio'], inplace = True)
-
-    # paso a numpy array
-    X = final_df.values
-    Y = df_precio.values 
-    print(X.shape)
-    print(Y.shape)
-    return X, Y 
+    # poner la columna precio como la ultima columna del final_df 
+    precio = final_df.pop('Precio')
+    final_df['Precio'] = precio
+    return final_df.values 
 
