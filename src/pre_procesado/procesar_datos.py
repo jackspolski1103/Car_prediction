@@ -39,11 +39,11 @@ def preprocesar_datos(df):
     return df 
 
 
-data_file = '../../data/Limpio/test.csv'
+data_file = '../../data/Limpio/datos_limpios.csv'
 df = pd.read_csv(data_file) 
 preprocesar_datos(df)
 #to csv
-df.to_csv('../../data/Limpio/PreProcesado/test.csv', index=False)
+df.to_csv('../../data/Limpio/PreProcesado/completo.csv', index=False)
 print('Done!')
 
 
