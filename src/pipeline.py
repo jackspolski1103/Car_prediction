@@ -48,8 +48,9 @@ def run_experiment(model_params, data_params):
         # metadata_train.to_csv(path, index=False)
         # metadata_test.to_csv(join('results', data_params.name, 'metadata_test.csv'), index=False)
     else:
-        metadata_train = np.load(path)
-        metadata_test = np.load(join('results', data_params.name, 'metadata_test.npy'))
+        print("Path: ", path)
+        metadata_train = np.load(path, allow_pickle = True)
+        metadata_test = np.load(join('results', data_params.name, 'metadata_test.npy'), allow_pickle = True)
     
     
     print('metadata_train', metadata_train.shape)
@@ -64,7 +65,8 @@ def run_experiment(model_params, data_params):
     results = model.test(metadata_test)
     
     # save model
-    model.save_model(context['save_path'])
+    model_path = join(context['save_path'], 'model.pkl')
+    model.save_model(model_path)
     print('model saved')
     # test
     # save results

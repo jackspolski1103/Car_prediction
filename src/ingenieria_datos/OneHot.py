@@ -1,9 +1,10 @@
 import pandas as pd
 from sklearn.preprocessing import OneHotEncoder
 import numpy as np
+from tqdm import tqdm
 
-def feature_engineering(df):
-    df_completo= 
+
+def one_hot_encoder(df):
     onehot = OneHotEncoder()
     df.drop(columns = ['Título', 'Tipo de carrocería', 'Puertas', 'Moneda', 'Motor'], inplace=True)
     columns_to_keep = df[['Año','Kilómetros', 'Precio', 'Cilindrada', 'Tracción', 'Turbo', '7plazas']]
@@ -21,5 +22,59 @@ def feature_engineering(df):
     # poner la columna precio como la ultima columna del final_df 
     precio = final_df.pop('Precio')
     final_df['Precio'] = precio
-    return final_df.values 
+    return final_df
+    
+
+def complete_rows(df, df_completo): 
+    # Inicializar un DataFrame vacío con las mismas columnas que df_completo
+    df_final = pd.DataFrame(columns=df_completo.columns)
+    
+    # Recorrer cada fila del DataFrame df
+    for index, row in tqdm(df.iterrows(), desc ='Completando filas'): 
+        marca = row['Marca']
+        modelo = row['Modelo']
+        ano = row['Año']
+        version = row['Versión']
+        color = row['Color']
+        combustible = row['Tipo de combustible']
+        transmision = row['Transmisión']
+        km = row['Kilómetros']
+        vendedor = row['Tipo de vendedor']
+        camara = row['Con cámara de retroceso']
+        cilindrada = row['Cilindrada']
+        traccion = row['Tracción']
+        turbo = row['Turbo']
+        plazas = row['7plazas']
+        precio = row['Precio']
+
+        new_row = {col: 0 for col in df_completo.columns}  # Inicializar una fila nueva con ceros
+
+        # Asignar valores a la nueva fila
+        new_row[marca] = 1 
+        new_row[modelo] = 1
+        new_row['Año'] = ano
+        new_row[version] = 1
+        new_row[color] = 1
+        new_row[combustible] = 1
+        new_row[transmision] = 1
+        new_row['Kilómetros'] = km
+        new_row[vendedor] = 1
+        new_row[camara] = 1
+        new_row['Cilindrada'] = cilindrada
+        new_row['Tracción'] = 1 if traccion == '4X4' else 0
+        new_row['Turbo'] = 1 if turbo == 'SI' else 0
+        new_row['7plazas'] = 1 if plazas == 'SI' else 0
+        new_row['Precio'] = precio
+
+        new_row = pd.DataFrame([new_row], columns=df_completo.columns)
+        df_final = pd.concat([df_final, new_row], ignore_index=True)
+        return df_final.values 
+
+def feature_engineering(df):
+    df_completo = pd.read_csv('./data/Limpio/PreProcesado/completo.csv')
+    df_completo = one_hot_encoder(df_completo)
+
+    df_final = complete_rows(df, df_completo)    
+        
+    return df_final
 

@@ -53,6 +53,8 @@ def create_result_folder(data_name,model_name):
     if not os.path.exists(join('results',data_name,model_name)):
         os.makedirs(join('results',data_name,model_name))   
 
+    # devuelve la carpeta donde se guardan los resultados
+    return join('results', data_name, model_name)
 
 
 
