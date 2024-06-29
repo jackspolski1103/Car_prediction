@@ -25,13 +25,14 @@ class Model:
         y = data[:, -1]
         return X, y
 
+
     def train(self,data):
         X, y = self.split_data(data)
         if self.cross_val:
             param_grid = {
                 'n_estimators': [50, 100, 200],
                 'learning_rate': [0.01, 0.1, 0.2],
-                'max_depth': [3, 4, 5],
+                'max_depth': [3, 8, 15],
                 'subsample': [0.7, 0.8, 0.9],
                 'colsample_bytree': [0.7, 0.8, 0.9]
             }
@@ -49,7 +50,8 @@ class Model:
             self.model.fit(X, y)
         
     def predict(self, X):
-        return self.model.predict(X)
+        y = self.model.predict(X)
+        return y
     
 
     def test(self, data):

@@ -68,7 +68,7 @@ def complete_rows(df, df_completo):
 
         new_row = pd.DataFrame([new_row], columns=df_completo.columns)
         df_final = pd.concat([df_final, new_row], ignore_index=True)
-        return df_final.values 
+    return df_final.values 
 
 def feature_engineering(df):
     df_completo = pd.read_csv('./data/Limpio/PreProcesado/completo.csv')
