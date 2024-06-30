@@ -37,8 +37,8 @@ def run_experiment(model_params, data_params):
     #el archivo metadata deberia estar en results/data_params.name
     path = join('results', data_params.name, 'metadata_train.npy')
     if not exists(path):
-        metadata_train = get_ingenieria_datos(data_params, data_train)
-        metadata_test = get_ingenieria_datos(data_params, data_test)
+        metadata_train = get_ingenieria_datos(data_params, data_train, train=True)
+        metadata_test = get_ingenieria_datos(data_params, data_test, train=False)
         #descargar metadata_train que es un numpy array
         np.save(join('results', data_params.name, 'metadata_train.npy'), metadata_train)
         np.save(join('results', data_params.name, 'metadata_test.npy'), metadata_test)
@@ -86,9 +86,9 @@ def load_model(params):
 
    
 
-def get_ingenieria_datos(data_params, data_train):
+def get_ingenieria_datos(data_params, data, train=True):
     #esta funcion entra a la carpeta de ingenieria de datos y ejecuta el script que tenga el nombre de data_params.name la funcion que se ejecuta es la que se llama feauture_engineering
     #devuelve el dataframe que se genero en esa funcion
     data_module = importlib.import_module(f'src.ingenieria_datos.{data_params.name}')
-    metadata_train = data_module.feature_engineering(data_train)
+    metadata_train = data_module.feature_engineering(data,train)
     return metadata_train
