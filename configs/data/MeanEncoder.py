@@ -1,0 +1,2 @@
+name= 'MeanEncoder'
+device='cpu'

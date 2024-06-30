@@ -67,7 +67,7 @@ def complete_rows(df, df_completo):
         new_row['Precio'] = precio
 
         new_row = pd.DataFrame([new_row], columns=df_completo.columns)
-        df_final = pd.concat([df_final, new_row], ignore_index=True)
+        df_final = pd.concat([df_final, new_row], ignore_index = True)
     return df_final.values 
 
 def feature_engineering(df):
