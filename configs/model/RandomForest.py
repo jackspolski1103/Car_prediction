@@ -1,5 +1,2 @@
-n_estimators = 100
-max_depth = 2
-n_jobs = 4
-tboard = False
-# etc
+name = 'RandomForest'
+params = [name, 100, 1, 1, 1 ,True, 10]
