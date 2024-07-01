@@ -37,8 +37,8 @@ def run_experiment(model_params, data_params):
     #el archivo metadata deberia estar en results/data_params.name
     path = join('results', data_params.name, 'metadata_train.npy')
     if not exists(path):
-        metadata_train = get_ingenieria_datos(data_params, data_train, train=True)
-        metadata_test = get_ingenieria_datos(data_params, data_test, train=False)
+        metadata_train = get_ingenieria_datos(data_params, data_train, train = True)
+        metadata_test = get_ingenieria_datos(data_params, data_test, train = False)
         #descargar metadata_train que es un numpy array
         np.save(join('results', data_params.name, 'metadata_train.npy'), metadata_train)
         np.save(join('results', data_params.name, 'metadata_test.npy'), metadata_test)
@@ -82,7 +82,6 @@ def load_model(params):
     # tranformar params en una lista
     model = model_module.Model(*params.params)
     return model
-
 
    
 

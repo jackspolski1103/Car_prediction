@@ -8,7 +8,7 @@ def one_hot_encoder(df):
     onehot = OneHotEncoder()
     df.drop(columns = ['Título', 'Tipo de carrocería', 'Puertas', 'Moneda', 'Motor'], inplace=True)
     columns_to_keep = df[['Año','Kilómetros', 'Precio', 'Cilindrada', 'Tracción', 'Turbo', '7plazas']]
-    arrays = onehot.fit_transform(df[['Marca', 'Modelo', 'Versión', 'Color', 'Tracción', 'Transmisión', 'Tipo de vendedor', 'Tipo de combustible', 'Con cámara de retroceso']]).toarray() 
+    arrays = onehot.fit_transform(df[['Marca', 'Modelo', 'Versión', 'Color', 'Transmisión', 'Tipo de vendedor', 'Tipo de combustible', 'Con cámara de retroceso']]).toarray() 
     new_features = onehot.categories_
     new_features = np.concatenate(new_features)
     encoded_df = pd.DataFrame(arrays, columns=new_features)
