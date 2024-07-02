@@ -89,6 +89,13 @@ def feature_engineering_test(df, dict_name):
     return df
 
 def feature_engineering(df, train):
+    # sacar las tildes a las columnas y a los encabezados
+    # df.columns = df.columns.str.normalize('NFKD').str.encode('ascii', errors='ignore').str.decode('utf-8')
+    # df = df.apply(lambda x: x.str.normalize('NFKD').str.encode('ascii', errors='ignore').str.decode('utf-8') if x.dtype == 'object' else x)
+
+
+
+
     # Eliminar las columnas que no se quieren usar
     df.drop(columns=['Título', 'Tipo de carrocería', 'Puertas', 'Moneda', 'Motor'], inplace=True)
 
