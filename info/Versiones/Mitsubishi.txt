@@ -1,5 +1,0 @@
-Glx
-Gls
-Gl
-Sport
-Ls
