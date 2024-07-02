@@ -38,8 +38,8 @@ class Model:
         if self.cross_val:
             param_grid = {
                 'n_estimators': [50, 100, 200],
-                'max_depth': [3, 8, 20],
-                'min_samples_split': [2, 10, 25],
+                'max_depth': [3, 8, 15],
+                'min_samples_split': [5, 10, 25],
                 'min_samples_leaf': [1, 4, 10]
             }
             kf = KFold(n_splits=self.cv, shuffle=True, random_state=42)
