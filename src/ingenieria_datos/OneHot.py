@@ -70,7 +70,7 @@ def complete_rows(df, df_completo):
         df_final = pd.concat([df_final, new_row], ignore_index = True)
     return df_final.values 
 
-def feature_engineering(df):
+def feature_engineering(df,train=True):
     df_completo = pd.read_csv('./data/Limpio/PreProcesado/completo.csv')
     df_completo = one_hot_encoder(df_completo)
 
