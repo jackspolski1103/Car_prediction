@@ -30,11 +30,11 @@ class Model:
         X, y = self.split_data(data)
         if self.cross_val:
             param_grid = {
-                'n_estimators': [50, 100, 200],
-                'learning_rate': [0.01, 0.1, 0.2, 0.05],
-                'max_depth': [3, 8, 10, 15, 20, 25],  
-                'subsample': [0.7, 0.8, 0.9, 1.0],
-                'colsample_bytree': [0.5, 0.8, 0.9, 1.0]
+                'n_estimators': [100, 200],
+                'learning_rate': [0.01, 0.1],
+                'max_depth': [3, 8, 15 ],  
+                'subsample': [0.7, 0.8, 0.9],
+                'colsample_bytree': [0.5, 0.8, 0.9]
             }
             kf = KFold(n_splits=5, shuffle=True, random_state=42)
             grid_search = GridSearchCV(self.model, param_grid, cv=kf, n_jobs=-1, verbose=2)

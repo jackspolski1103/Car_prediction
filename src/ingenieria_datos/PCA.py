@@ -19,7 +19,7 @@ def feature_engineering(data, train=True):
     y = data[:, -1]
 
     if train:
-        pca = train_pca(X, 20)
+        pca = train_pca(X, 50)
         X = pca.transform(X)
         # Guardar el modelo PCA en lugar de solo las componentes principales
         joblib.dump(pca, './src/ingenieria_datos/pca_model.pkl')

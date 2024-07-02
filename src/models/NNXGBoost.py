@@ -42,6 +42,7 @@ class Model:
         self.cv = cv
         self.cv_folds = cv_folds
         self.model_xgboost = xgb.XGBRegressor(n_jobs=-1, random_state=42)
+        
 
     def split_data(self, data):
         X = data[:, :-1]
@@ -62,7 +63,7 @@ class Model:
 
         x_train = torch.tensor(x_train, dtype=torch.float32).to(self.device)
         y_train = torch.tensor(y_train, dtype=torch.float32).to(self.device)
-
+    
         for epoch in range(self.epocas):
             self.model.train()
             for i in range(0, len(x_train), self.batch_size):
@@ -74,11 +75,11 @@ class Model:
                 self.optimizer.zero_grad()
                 loss.backward()
                 self.optimizer.step()
-            logging.info(f'Epoch {epoch+1}/{self.epocas}, Loss: {loss.item()}')
-
+                
+            print(f'Epoch {epoch+1}/{self.epocas}, Loss: {loss.item()}')
     
     def get_hidden_layer(self, data):
-        X = data[:, :-1]
+        X = data
         X = self.normalize(X)
         X= X.astype(np.float32)
         X = torch.tensor(X, dtype=torch.float32).to(self.device)
@@ -88,11 +89,11 @@ class Model:
     def train_xgboost(self, hidden_layer, y_train):
         if self.cv:
             param_grid = {
-                'n_estimators': [50, 100, 200],
-                'learning_rate': [0.01, 0.1, 0.2],
+                'n_estimators': [100, 200],
+                'learning_rate': [0.01, 0.1],
                 'max_depth': [3, 8, 15],
-                'subsample': [0.7, 0.8, 0.9],
-                'colsample_bytree': [0.7, 0.8, 0.9]
+                'subsample': [0.7, 0.8],
+                'colsample_bytree': [0.7, 0.8]
             }
             kf = KFold(n_splits=self.cv_folds, shuffle=True, random_state=42)
             grid_search = GridSearchCV(self.model_xgboost, param_grid, cv=kf, n_jobs=-1, verbose=2)
@@ -109,7 +110,7 @@ class Model:
     def train(self, data):
         X, y = self.split_data(data)
         self.train_NN(data)
-        hidden_layer = self.get_hidden_layer(data)
+        hidden_layer = self.get_hidden_layer(X)
         self.train_xgboost(hidden_layer, y)
 
 
@@ -124,7 +125,13 @@ class Model:
         return test(y, y_pred)
     
     def save_model(self, path):
+        #guardar la instancia de esta clase
         joblib.dump(self.model_xgboost, path)
+        #guardar el modelo de la red neuronal 
+        #cambiar el nombre al path a que lo ultimo sea model_nn.pkl
+        path = path.split('.')[0] + '_NN.pkl'
+        torch.save(self.model, path )
+
 
     def load_model(self, path):
         self.model_xgboost = joblib.load(path)

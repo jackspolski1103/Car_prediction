@@ -63,6 +63,10 @@ def run_experiment(model_params, data_params):
 
     # test
     results = model.test(metadata_test)
+
+    #resultados train
+    results_train = model.test(metadata_train)
+
     
     # save model
     model_path = join(context['save_path'], 'model.pkl')
@@ -71,6 +75,7 @@ def run_experiment(model_params, data_params):
     # test
     # save results
     results.to_csv(join(context['save_path'], 'results.csv'), index=False)
+    results_train.to_csv(join(context['save_path'], 'results_train.csv'), index=False)
 
 
     logger.info('Experiment completed')
