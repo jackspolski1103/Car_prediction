@@ -38,13 +38,33 @@ def preprocesar_datos(df):
     preprocesar_versiones(df)
     return df 
 
+#Marca,Modelo,Año,Versión,Color,Tipo de combustible,Puertas,Transmisión,Motor,Tipo de carrocería,Kilómetros,Título,Precio,Moneda,Tipo de vendedor,Con cámara de retroceso
 
-data_file = '../../data/Limpio/datos_limpios.csv'
-df = pd.read_csv(data_file) 
+data_file = '../../test_entrega/test.csv'
+df = pd.read_csv(data_file)
+
+#eliminar columna id
+df = df.drop(columns = ['id'])
+#agregar columna precio con ceros
+df['Precio'] = 0
+#agregar columna con Moneda
+df['Moneda'] = 'USD'
+#dejar este orden de columnas Marca,Modelo,Año,Versión,Color,Tipo de combustible,Puertas,Transmisión,Motor,Tipo de carrocería,Kilómetros,Título,Precio,Moneda,Tipo de vendedor,Con cámara de retroceso
+
+column_order = [
+    'Marca', 'Modelo', 'Año', 'Versión', 'Color', 'Tipo de combustible', 
+    'Puertas', 'Transmisión', 'Motor', 'Tipo de carrocería', 'Kilómetros', 
+    'Título', 'Precio', 'Moneda', 'Tipo de vendedor', 'Con cámara de retroceso'
+]
+
+# Reordenar las columnas del DataFrame
+df = df.reindex(columns=column_order)
+
 preprocesar_datos(df)
 #to csv
-df.to_csv('../../data/Limpio/PreProcesado/completo.csv', index=False)
+df.to_csv('../../test_entrega/test_procesado.csv', index=False)
 print('Done!')
+
 
 
 

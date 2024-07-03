@@ -4,7 +4,7 @@ import numpy as np
 from tqdm import tqdm
 
 
-def one_hot_encoder(df):
+def one_hot_encoder(df,train=True):
     onehot = OneHotEncoder()
     df.drop(columns = ['Título', 'Tipo de carrocería', 'Puertas', 'Moneda', 'Motor'], inplace=True)
     columns_to_keep = df[['Año','Kilómetros', 'Precio', 'Cilindrada', 'Tracción', 'Turbo', '7plazas']]
@@ -20,12 +20,13 @@ def one_hot_encoder(df):
     final_df['7plazas'] = final_df['7plazas'].apply(lambda x: 1 if x == 'SI' else 0)
 
     # poner la columna precio como la ultima columna del final_df 
-    precio = final_df.pop('Precio')
-    final_df['Precio'] = precio
+    if train:
+        precio = final_df.pop('Precio')
+        final_df['Precio'] = precio
     return final_df
     
 
-def complete_rows(df, df_completo): 
+def complete_rows(df, df_completo,train=True): 
     # Inicializar un DataFrame vacío con las mismas columnas que df_completo
     df_final = pd.DataFrame(columns=df_completo.columns)
     
@@ -45,7 +46,8 @@ def complete_rows(df, df_completo):
         traccion = row['Tracción']
         turbo = row['Turbo']
         plazas = row['7plazas']
-        precio = row['Precio']
+        if train:
+            precio = row['Precio']
 
         new_row = {col: 0 for col in df_completo.columns}  # Inicializar una fila nueva con ceros
 
@@ -64,7 +66,9 @@ def complete_rows(df, df_completo):
         new_row['Tracción'] = 1 if traccion == '4X4' else 0
         new_row['Turbo'] = 1 if turbo == 'SI' else 0
         new_row['7plazas'] = 1 if plazas == 'SI' else 0
-        new_row['Precio'] = precio
+        if train:
+            new_row['Precio'] = precio
+
 
         new_row = pd.DataFrame([new_row], columns=df_completo.columns)
         df_final = pd.concat([df_final, new_row], ignore_index = True)
@@ -72,9 +76,14 @@ def complete_rows(df, df_completo):
 
 def feature_engineering(df,train=True):
     df_completo = pd.read_csv('./data/Limpio/PreProcesado/completo.csv')
-    df_completo = one_hot_encoder(df_completo)
+    #hacer print de shape de df_completo
+    print(df_completo.shape)
+    df_completo = one_hot_encoder(df_completo,train)
+    #hacer print de shape de df_completo
+    print(df_completo.shape)
+    
 
-    df_final = complete_rows(df, df_completo)    
+    df_final = complete_rows(df, df_completo,train)    
         
     return df_final
 
