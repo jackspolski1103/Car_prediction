@@ -40,30 +40,35 @@ def preprocesar_datos(df):
 
 #Marca,Modelo,Año,Versión,Color,Tipo de combustible,Puertas,Transmisión,Motor,Tipo de carrocería,Kilómetros,Título,Precio,Moneda,Tipo de vendedor,Con cámara de retroceso
 
-data_file = '../../test_entrega/test.csv'
+data_file = '../../data/Limpio/test.csv'
 df = pd.read_csv(data_file)
+predf = preprocesar_datos(df)
+predf.to_csv('../../data/Limpio/test_procesado2.csv', index=False)
 
-#eliminar columna id
-df = df.drop(columns = ['id'])
-#agregar columna precio con ceros
-df['Precio'] = 0
-#agregar columna con Moneda
-df['Moneda'] = 'USD'
-#dejar este orden de columnas Marca,Modelo,Año,Versión,Color,Tipo de combustible,Puertas,Transmisión,Motor,Tipo de carrocería,Kilómetros,Título,Precio,Moneda,Tipo de vendedor,Con cámara de retroceso
+# data_file = '../../test_entrega/test.csv'
+# df = pd.read_csv(data_file)
 
-column_order = [
-    'Marca', 'Modelo', 'Año', 'Versión', 'Color', 'Tipo de combustible', 
-    'Puertas', 'Transmisión', 'Motor', 'Tipo de carrocería', 'Kilómetros', 
-    'Título', 'Precio', 'Moneda', 'Tipo de vendedor', 'Con cámara de retroceso'
-]
+# #eliminar columna id
+# df = df.drop(columns = ['id'])
+# #agregar columna precio con ceros
+# df['Precio'] = 0
+# #agregar columna con Moneda
+# df['Moneda'] = 'USD'
+# #dejar este orden de columnas Marca,Modelo,Año,Versión,Color,Tipo de combustible,Puertas,Transmisión,Motor,Tipo de carrocería,Kilómetros,Título,Precio,Moneda,Tipo de vendedor,Con cámara de retroceso
 
-# Reordenar las columnas del DataFrame
-df = df.reindex(columns=column_order)
+# column_order = [
+#     'Marca', 'Modelo', 'Año', 'Versión', 'Color', 'Tipo de combustible', 
+#     'Puertas', 'Transmisión', 'Motor', 'Tipo de carrocería', 'Kilómetros', 
+#     'Título', 'Precio', 'Moneda', 'Tipo de vendedor', 'Con cámara de retroceso'
+# ]
 
-preprocesar_datos(df)
-#to csv
-df.to_csv('../../test_entrega/test_procesado.csv', index=False)
-print('Done!')
+# # Reordenar las columnas del DataFrame
+# df = df.reindex(columns=column_order)
+
+# preprocesar_datos(df)
+# #to csv
+# df.to_csv('../../test_entrega/test_procesado.csv', index=False)
+# print('Done!')
 
 
 

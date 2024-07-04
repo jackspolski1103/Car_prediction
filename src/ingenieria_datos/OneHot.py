@@ -20,9 +20,9 @@ def one_hot_encoder(df,train=True):
     final_df['7plazas'] = final_df['7plazas'].apply(lambda x: 1 if x == 'SI' else 0)
 
     # poner la columna precio como la ultima columna del final_df 
-    if train:
-        precio = final_df.pop('Precio')
-        final_df['Precio'] = precio
+    
+    precio = final_df.pop('Precio')
+    final_df['Precio'] = precio
     return final_df
     
 
@@ -46,8 +46,7 @@ def complete_rows(df, df_completo,train=True):
         traccion = row['Tracción']
         turbo = row['Turbo']
         plazas = row['7plazas']
-        if train:
-            precio = row['Precio']
+        precio = row['Precio']
 
         new_row = {col: 0 for col in df_completo.columns}  # Inicializar una fila nueva con ceros
 
@@ -66,8 +65,8 @@ def complete_rows(df, df_completo,train=True):
         new_row['Tracción'] = 1 if traccion == '4X4' else 0
         new_row['Turbo'] = 1 if turbo == 'SI' else 0
         new_row['7plazas'] = 1 if plazas == 'SI' else 0
-        if train:
-            new_row['Precio'] = precio
+        
+        new_row['Precio'] = precio
 
 
         new_row = pd.DataFrame([new_row], columns=df_completo.columns)
@@ -81,7 +80,7 @@ def feature_engineering(df,train=True):
     df_completo = one_hot_encoder(df_completo,train)
     #hacer print de shape de df_completo
     print(df_completo.shape)
-    
+
 
     df_final = complete_rows(df, df_completo,train)    
         
