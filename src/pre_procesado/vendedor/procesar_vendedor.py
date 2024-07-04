@@ -8,7 +8,7 @@ def preprocesar_vendedor(df):
         "TIENDA",
         "CONCESIONARIA",
         "PARTICULAR",
-        "OTRO"
+        "OTRO_VENDEDOR" 
     ]
     threshold = 3 # cantidad de letras distintas que puede tener como máximo 
     vendedor = df['Tipo de vendedor'].str.split().str[0].str.upper()
@@ -18,14 +18,14 @@ def preprocesar_vendedor(df):
         aux = "" 
         for c in tipos: 
             if pd.isnull(vendedor[i]) or vendedor[i] is pd.NA:  
-                vendedor[i] = "OTRO" 
+                vendedor[i] = "OTRO_VENDEDOR" 
             dist = lev.distance(vendedor[i], c) 
             if dist < min_dist:
                 aux = c  
                 min_dist = dist 
         vendedor[i] = aux 
         if min_dist > threshold:
-            vendedor[i] = "OTRO"
+            vendedor[i] = "OTRO_VENDEDOR"
     df['Tipo de vendedor'] = vendedor
     return 
 

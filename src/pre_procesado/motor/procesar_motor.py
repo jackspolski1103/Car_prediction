@@ -37,8 +37,7 @@ def preprocesar_motor(df):
 
     #hacemos la columna cilindrada
     df['Cilindrada'] = motores.apply(lambda x: encontrar_numero_decimal(x))
-    #hacemos la columna potencia
-    #QUEDA PENDIENTE
+
     return df
 
         

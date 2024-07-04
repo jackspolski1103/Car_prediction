@@ -20,7 +20,7 @@ def preprocesar_colores(df):
     "NARANJA",
     "BORDO",
     "MARRON",
-    "OTRO" 
+    "OTRO_COLOR" 
     ]
     threshold = 5 # cantidad de letras distintas que puede tener como máximo 
     color = df['Color'].str.split().str[0].str.upper()
@@ -32,14 +32,14 @@ def preprocesar_colores(df):
             # print("color[i]: ", color[i]) 
             # print("c: ", c)  
             if pd.isnull(color[i]) or color[i] is pd.NA:  
-                color[i] = "OTRO" 
+                color[i] = "OTRO_COLOR" 
             dist = lev.distance(color[i], c) 
             if dist < min_dist:
                 aux = c  
                 min_dist = dist 
         color[i] = aux 
         if min_dist > threshold:
-            color[i] = "OTRO"
+            color[i] = "OTRO_COLOR"
     df['Color'] = color
     return 
 
